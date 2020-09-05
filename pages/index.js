@@ -1,65 +1,91 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import AppLayout from '../components/AppLayout';
+import { colors } from '../styles/theme';
+import Button from '../components/Button';
+import GitHub from '../components/Icons/GitHub';
+import { loginWithGitHub, onAuthStateChanged } from '../firebase/client';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    const [user, setUser] = useState(undefined);
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    useEffect(() => {
+        onAuthStateChanged(setUser);
+    }, []);
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+    const handleClick = () => {
+        loginWithGitHub()
+            .then(user => {
+                setUser(user);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+    return (
+        <>
+            <Head>
+                <title>Birdev</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+            <AppLayout>
+                <section>
+                    <img src="/bird.svg" alt="Logo"></img>
+                    <h1>
+                        Bir<a href="https://nextjs.org">dev</a>
+                    </h1>
+                    <h2>Talk about development and IT</h2>
+                    <div>
+                        {user === null && (
+                            <Button onClick={handleClick}>
+                                <GitHub
+                                    width={24}
+                                    height={24}
+                                    fill={colors.white}
+                                />
+                                Login with GitHub
+                            </Button>
+                        )}
+                        {user && user.avatar && (
+                            <div>
+                                <img src={user.avatar} />
+                                <strong>{user.username}</strong>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            </AppLayout>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            <style jsx>{`
+                div {
+                    margin-top: 16px;
+                }
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+                img {
+                    width: 120px;
+                }
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+                section {
+                    display: grid;
+                    height: 100%;
+                    place-items: center;
+                    place-content: center;
+                }
+
+                h1 {
+                    color: ${colors.primary};
+                    font-weight: 800;
+                    margin-bottom: 16px;
+                }
+
+                h2 {
+                    color: ${colors.secondary};
+                    font-size: 21px;
+                    margin: 0;
+                }
+            `}</style>
+        </>
+    );
 }

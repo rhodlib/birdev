@@ -1,15 +1,17 @@
 import AppLayout from 'components/AppLayout';
 import { useState, useEffect } from 'react';
 import Birdit from 'components/Birdit';
+import { colors } from 'styles/theme';
+import useUser from 'hooks/useUser';
+import { fetchLatestBirdits } from 'firebase/client';
 
 export default function HomePage() {
     const [timeline, setTimeline] = useState([]);
+    const user = useUser();
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/statuses/home_timeline')
-            .then(res => res.json())
-            .then(setTimeline);
-    }, []);
+        user && fetchLatestBirdits().then(setTimeline);
+    }, [user]);
 
     return (
         <>
@@ -18,26 +20,39 @@ export default function HomePage() {
                     <h2>Inicio</h2>
                 </header>
                 <section>
-                    {timeline.map(birdit => {
-                        return (
-                            <Birdit
-                                avatar={birdit.avatar}
-                                id={birdit.id}
-                                key={birdit.id}
-                                message={birdit.message}
-                                username={birdit.username}
-                            />
-                        );
-                    })}
+                    {timeline.map(
+                        ({
+                            id,
+                            username,
+                            avatar,
+                            content,
+                            userId,
+                            createdAt,
+                        }) => {
+                            return (
+                                <Birdit
+                                    avatar={avatar}
+                                    createdAt={createdAt}
+                                    id={id}
+                                    key={id}
+                                    content={content}
+                                    username={username}
+                                    userId={userId}
+                                />
+                            );
+                        }
+                    )}
                 </section>
                 <nav></nav>
             </AppLayout>
             <style jsx>{`
                 header {
+                    background: #ffffffaa;
+                    backdrop-filter: blur(5px);
                     display: flex;
                     align-items: center;
                     height: 49px;
-                    border-bottom: 1px solid #ccc;
+                    border-bottom: 1px solid #eee;
                     position: sticky;
                     top: 0;
                     width: 100%;
@@ -46,17 +61,15 @@ export default function HomePage() {
                 h2 {
                     font-size: 21px;
                     font-weight: 800;
-                }
-
-                section {
-                    padding-top: 49px;
+                    padding-left: 15px;
                 }
 
                 nav {
+                    background: ${colors.white};
                     bottom: 0;
-                    border-top: 1px solid #ccc;
+                    border-top: 1px solid #eee;
                     height: 49px;
-                    position: fixed;
+                    position: sticky;
                     width: 100%;
                 }
             `}</style>

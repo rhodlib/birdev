@@ -3,25 +3,23 @@ import AppLayout from 'components/AppLayout';
 import { colors } from 'styles/theme';
 import Button from 'components/Button';
 import GitHub from 'components/Icons/GitHub';
-import { loginWithGitHub, onAuthStateChanged } from 'firebase/client';
-import { useState, useEffect } from 'react';
-import Avatar from 'components/Avatar';
+import { loginWithGitHub } from 'firebase/client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import useUser, { USER_STATES } from 'hooks/useUser';
 
 export default function Home() {
-    const [user, setUser] = useState(undefined);
+    const user = useUser();
+    const router = useRouter();
 
     useEffect(() => {
-        onAuthStateChanged(setUser);
-    }, []);
+        user && router.replace('/home');
+    }, [user]);
 
     const handleClick = () => {
-        loginWithGitHub()
-            .then(user => {
-                setUser(user);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        loginWithGitHub().catch(err => {
+            console.log(err);
+        });
     };
 
     return (
@@ -39,7 +37,7 @@ export default function Home() {
                     </h1>
                     <h2>Talk about development and IT</h2>
                     <div>
-                        {user === null && (
+                        {user === USER_STATES.NOT_LOGGED && (
                             <Button onClick={handleClick}>
                                 <GitHub
                                     width={24}
@@ -49,14 +47,8 @@ export default function Home() {
                                 Login with GitHub
                             </Button>
                         )}
-                        {user && user.avatar && (
-                            <div>
-                                <Avatar
-                                    src={user.avatar}
-                                    alt={user.username}
-                                    text={user.username}
-                                />
-                            </div>
+                        {user === USER_STATES.NOT_KNOWN && (
+                            <img src="/loader.gif"></img>
                         )}
                     </div>
                 </section>

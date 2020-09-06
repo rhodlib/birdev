@@ -1,6 +1,13 @@
 import Avatar from 'components/Avatar';
 
-export default function Birdit({ avatar, username, name, id, message }) {
+export default function Birdit({
+    avatar,
+    username,
+    id,
+    content,
+    userId,
+    createdAt,
+}) {
     return (
         <>
             <article key={id}>
@@ -8,13 +15,17 @@ export default function Birdit({ avatar, username, name, id, message }) {
                     <Avatar src={avatar} alt={username} />
                 </div>
                 <section>
-                    <strong>{username}</strong>
-                    <p>{message}</p>
+                    <header>
+                        <strong>{username}</strong>
+                        <span> . </span>
+                        <date>{createdAt}</date>
+                    </header>
+                    <p>{content}</p>
                 </section>
             </article>
             <style jsx>{`
                 article {
-                    border-bottom: 1px solid #eaf7ff;
+                    border-bottom: 1px solid #eee;
                     display: flex;
                     padding: 10px 15px;
                 }
@@ -26,6 +37,11 @@ export default function Birdit({ avatar, username, name, id, message }) {
                 p {
                     line-height: 1.3125;
                     margin: 0;
+                }
+
+                date {
+                    color: #555;
+                    font-size: 12px;
                 }
             `}</style>
         </>

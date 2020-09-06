@@ -13,13 +13,16 @@ const firebaseConfig = {
 
 firebase.apps.length === 0 && firebase.initializeApp(firebaseConfig);
 
+const db = firebase.firestore();
+
 const mapUserFromFirebaseAuth = user => {
-    const { displayName, email, photoURL } = user;
+    const { displayName, email, photoURL, uid } = user;
 
     return {
         avatar: photoURL,
         username: displayName,
         email,
+        uid,
     };
 };
 
@@ -33,4 +36,39 @@ export const onAuthStateChanged = onChange => {
 export const loginWithGitHub = () => {
     const githubProvider = new firebase.auth.GithubAuthProvider();
     return firebase.auth().signInWithPopup(githubProvider);
+};
+
+export const addBirdit = ({ avatar, content, userId, username }) => {
+    return db.collection('birdits').add({
+        avatar,
+        content,
+        userId,
+        username,
+        createAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        likesCount: 0,
+        sharedCount: 0,
+    });
+};
+
+export const fetchLatestBirdits = () => {
+    return db
+        .collection('birdits')
+        .get()
+        .then(snapshot => {
+            return snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                const { createAt } = data;
+                const date = new Date(createAt.seconds * 1000);
+                const normalizedCreatedAt = new Intl.DateTimeFormat(
+                    'es-ES'
+                ).format(date);
+
+                return {
+                    ...data,
+                    id,
+                    createdAt: normalizedCreatedAt,
+                };
+            });
+        });
 };

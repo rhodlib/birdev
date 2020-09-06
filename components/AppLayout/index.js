@@ -17,8 +17,9 @@ export default function AppLayout({ children }) {
                 }
 
                 main {
+                    overflow-y: auto;
                     position: relative;
-                    background-color: #fff;
+                    background-color: ${colors.white};
                     border-radius: 10px;
                     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
                     height: 100%;
@@ -45,6 +46,7 @@ export default function AppLayout({ children }) {
                     padding: 0;
                     margin: 0;
                     font-family: ${fonts.base};
+                    overflow: hidden;
                 }
 
                 a {
@@ -54,6 +56,11 @@ export default function AppLayout({ children }) {
 
                 * {
                     box-sizing: border-box;
+                }
+
+                textarea,
+                input {
+                    font-family: ${fonts.base};
                 }
             `}</style>
         </>

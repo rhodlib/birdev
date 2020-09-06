@@ -1,10 +1,11 @@
 import Head from 'next/head';
-import AppLayout from '../components/AppLayout';
-import { colors } from '../styles/theme';
-import Button from '../components/Button';
-import GitHub from '../components/Icons/GitHub';
-import { loginWithGitHub, onAuthStateChanged } from '../firebase/client';
+import AppLayout from 'components/AppLayout';
+import { colors } from 'styles/theme';
+import Button from 'components/Button';
+import GitHub from 'components/Icons/GitHub';
+import { loginWithGitHub, onAuthStateChanged } from 'firebase/client';
 import { useState, useEffect } from 'react';
+import Avatar from 'components/Avatar';
 
 export default function Home() {
     const [user, setUser] = useState(undefined);
@@ -50,8 +51,11 @@ export default function Home() {
                         )}
                         {user && user.avatar && (
                             <div>
-                                <img src={user.avatar} />
-                                <strong>{user.username}</strong>
+                                <Avatar
+                                    src={user.avatar}
+                                    alt={user.username}
+                                    text={user.username}
+                                />
                             </div>
                         )}
                     </div>

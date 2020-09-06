@@ -1,5 +1,5 @@
-import { fonts, colors, breakpoints } from '../../styles/theme';
-import { addOpacityToColor } from '../../styles/utils';
+import { fonts, colors, breakpoints } from 'styles/theme';
+import { addOpacityToColor } from 'styles/utils';
 
 const backgroundColor = addOpacityToColor(colors.primary, 0.3);
 
@@ -17,6 +17,7 @@ export default function AppLayout({ children }) {
                 }
 
                 main {
+                    position: relative;
                     background-color: #fff;
                     border-radius: 10px;
                     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);

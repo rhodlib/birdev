@@ -4,6 +4,7 @@ A little project to make a Social Network like twitter made with Next.js
 
 ## Technologies
 
-- [firebase]
-- [react]
-- [next]
+- [firebase](https://firebase.google.com/?hl=es)
+- [next](https://nextjs.org/)
+- [ESLint](https://eslint.org/)
+- [prettier](https://prettier.io/)

@@ -1,7 +1,14 @@
 import Avatar from 'components/Avatar';
 import useTimeAgo from 'hooks/useTimeAgo';
 
-export default function Birdit({ avatar, username, id, content, createdAt }) {
+export default function Birdit({
+    avatar,
+    username,
+    img,
+    id,
+    content,
+    createdAt,
+}) {
     const timeago = useTimeAgo(createdAt);
     return (
         <>
@@ -16,6 +23,7 @@ export default function Birdit({ avatar, username, id, content, createdAt }) {
                         <date>{timeago}</date>
                     </header>
                     <p>{content}</p>
+                    {img && <img src={img} />}
                 </section>
             </article>
             <style jsx>{`
@@ -23,6 +31,13 @@ export default function Birdit({ avatar, username, id, content, createdAt }) {
                     border-bottom: 1px solid #eee;
                     display: flex;
                     padding: 10px 15px;
+                }
+
+                img {
+                    width: 100%;
+                    height: auto;
+                    margin-top: 10px;
+                    border-radius: 10px;
                 }
 
                 div {

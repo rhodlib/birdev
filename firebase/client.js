@@ -38,10 +38,11 @@ export const loginWithGitHub = () => {
     return firebase.auth().signInWithPopup(githubProvider);
 };
 
-export const addBirdit = ({ avatar, content, userId, username }) => {
+export const addBirdit = ({ avatar, content, userId, username, img }) => {
     return db.collection('birdits').add({
         avatar,
         content,
+        img,
         userId,
         username,
         createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -67,4 +68,10 @@ export const fetchLatestBirdits = () => {
                 };
             });
         });
+};
+
+export const uploadImage = file => {
+    const ref = firebase.storage().ref(`image/${file.name}`);
+    const task = ref.put(file);
+    return task;
 };

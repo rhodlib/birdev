@@ -44,7 +44,7 @@ export const addBirdit = ({ avatar, content, userId, username }) => {
         content,
         userId,
         username,
-        createAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         likesCount: 0,
         sharedCount: 0,
     });
@@ -53,21 +53,17 @@ export const addBirdit = ({ avatar, content, userId, username }) => {
 export const fetchLatestBirdits = () => {
     return db
         .collection('birdits')
+        .orderBy('createdAt', 'desc')
         .get()
         .then(snapshot => {
             return snapshot.docs.map(doc => {
                 const data = doc.data();
                 const id = doc.id;
-                const { createAt } = data;
-                const date = new Date(createAt.seconds * 1000);
-                const normalizedCreatedAt = new Intl.DateTimeFormat(
-                    'es-ES'
-                ).format(date);
-
+                const { createdAt } = data;
                 return {
                     ...data,
                     id,
-                    createdAt: normalizedCreatedAt,
+                    createdAt: +createdAt.toDate(),
                 };
             });
         });

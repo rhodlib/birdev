@@ -24,6 +24,8 @@ export default function AppLayout({ children }) {
                     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
                     height: 100%;
                     width: 100%;
+                    display: flex;
+                    flex-direction: column;
                 }
 
                 @media (min-width: ${breakpoints.mobile}) {

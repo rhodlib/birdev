@@ -4,6 +4,8 @@ import Birdit from 'components/Birdit';
 import { colors } from 'styles/theme';
 import useUser from 'hooks/useUser';
 import { fetchLatestBirdits } from 'firebase/client';
+import Link from 'next/link';
+import Create from 'components/Icons/Create';
 
 export default function HomePage() {
     const [timeline, setTimeline] = useState([]);
@@ -43,7 +45,13 @@ export default function HomePage() {
                         }
                     )}
                 </section>
-                <nav></nav>
+                <nav>
+                    <Link href="/compose/tweet">
+                        <a>
+                            <Create with={32} height={32} />
+                        </a>
+                    </Link>
+                </nav>
             </AppLayout>
             <style jsx>{`
                 header {
@@ -56,6 +64,10 @@ export default function HomePage() {
                     position: sticky;
                     top: 0;
                     width: 100%;
+                }
+
+                section {
+                    flex: 1;
                 }
 
                 h2 {
@@ -71,6 +83,14 @@ export default function HomePage() {
                     height: 49px;
                     position: sticky;
                     width: 100%;
+                }
+
+                nav a {
+                    align-items: center;
+                    display: flex;
+                    flex: 1 1 auto;
+                    height: 100%;
+                    justify-content: center;
                 }
             `}</style>
         </>

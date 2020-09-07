@@ -1,13 +1,8 @@
 import Avatar from 'components/Avatar';
+import useTimeAgo from 'hooks/useTimeAgo';
 
-export default function Birdit({
-    avatar,
-    username,
-    id,
-    content,
-    userId,
-    createdAt,
-}) {
+export default function Birdit({ avatar, username, id, content, createdAt }) {
+    const timeago = useTimeAgo(createdAt);
     return (
         <>
             <article key={id}>
@@ -18,7 +13,7 @@ export default function Birdit({
                     <header>
                         <strong>{username}</strong>
                         <span> . </span>
-                        <date>{createdAt}</date>
+                        <date>{timeago}</date>
                     </header>
                     <p>{content}</p>
                 </section>

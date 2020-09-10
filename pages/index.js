@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import AppLayout from 'components/AppLayout';
 import { colors } from 'styles/theme';
 import Button from 'components/Button';
 import GitHub from 'components/Icons/GitHub';
@@ -28,31 +27,28 @@ export default function Home() {
                 <title>Birdev</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
-            <AppLayout>
-                <section>
-                    <img src="/bird.svg" alt="Logo"></img>
-                    <h1>
-                        Bir<a href="https://nextjs.org">dev</a>
-                    </h1>
-                    <h2>Talk about development and IT</h2>
-                    <div>
-                        {user === USER_STATES.NOT_LOGGED && (
-                            <Button onClick={handleClick}>
-                                <GitHub
-                                    width={24}
-                                    height={24}
-                                    fill={colors.white}
-                                />
-                                Login with GitHub
-                            </Button>
-                        )}
-                        {user === USER_STATES.NOT_KNOWN && (
-                            <img src="/loader.gif"></img>
-                        )}
-                    </div>
-                </section>
-            </AppLayout>
+            <section>
+                <img src="/bird.svg" alt="Logo"></img>
+                <h1>
+                    Bir<a href="https://nextjs.org">dev</a>
+                </h1>
+                <h2>Talk about development and IT</h2>
+                <div>
+                    {user === USER_STATES.NOT_LOGGED && (
+                        <Button onClick={handleClick}>
+                            <GitHub
+                                width={24}
+                                height={24}
+                                fill={colors.white}
+                            />
+                            Login with GitHub
+                        </Button>
+                    )}
+                    {user === USER_STATES.NOT_KNOWN && (
+                        <img src="/loader.gif"></img>
+                    )}
+                </div>
+            </section>
 
             <style jsx>{`
                 div {

@@ -1,4 +1,3 @@
-import AppLayout from 'components/AppLayout';
 import Button from 'components/Button';
 import useUser from 'hooks/useUser';
 import { useState, useEffect } from 'react';
@@ -89,41 +88,35 @@ export default function ComposeTweet() {
 
     return (
         <>
-            <AppLayout>
-                <Head>
-                    <title>Write a Birdit / Birdev</title>
-                </Head>
-                <section className="form-container">
-                    {user && (
-                        <section className="avatar-container">
-                            <Avatar src={user.avatar} alt={user.username} />
+            <Head>
+                <title>Write a Birdit / Birdev</title>
+            </Head>
+            <section className="form-container">
+                {user && (
+                    <section className="avatar-container">
+                        <Avatar src={user.avatar} alt={user.username} />
+                    </section>
+                )}
+                <form onSubmit={handleSubmit}>
+                    <textarea
+                        onDragEnter={handleDragEnter}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onChange={handleChange}
+                        placeholder="What's going on?"
+                        value={message}
+                    ></textarea>
+                    {imgURL && (
+                        <section className="remove-img">
+                            <button onClick={() => setImgURL(null)}>x</button>
+                            <img src={imgURL} />
                         </section>
                     )}
-                    <form onSubmit={handleSubmit}>
-                        <textarea
-                            onDragEnter={handleDragEnter}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            onChange={handleChange}
-                            placeholder="What's going on?"
-                            value={message}
-                        ></textarea>
-                        {imgURL && (
-                            <section className="remove-img">
-                                <button onClick={() => setImgURL(null)}>
-                                    x
-                                </button>
-                                <img src={imgURL} />
-                            </section>
-                        )}
-                        <div>
-                            <Button disabled={isButtonDisabled}>
-                                Bird it!
-                            </Button>
-                        </div>
-                    </form>
-                </section>
-            </AppLayout>
+                    <div>
+                        <Button disabled={isButtonDisabled}>Bird it!</Button>
+                    </div>
+                </form>
+            </section>
             <style jsx>{`
                 div {
                     padding: 15px;

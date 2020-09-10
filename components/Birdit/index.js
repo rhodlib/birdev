@@ -1,5 +1,7 @@
 import Avatar from 'components/Avatar';
 import useTimeAgo from 'hooks/useTimeAgo';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Birdit({
     avatar,
@@ -10,9 +12,16 @@ export default function Birdit({
     createdAt,
 }) {
     const timeago = useTimeAgo(createdAt);
+    const router = useRouter();
+
+    const handleArticleClick = event => {
+        event.preventDefault();
+        router.push('status/[id]', `/status/${id}`);
+    };
+
     return (
         <>
-            <article key={id}>
+            <article onClick={handleArticleClick}>
                 <div>
                     <Avatar src={avatar} alt={username} />
                 </div>
@@ -20,7 +29,11 @@ export default function Birdit({
                     <header>
                         <strong>{username}</strong>
                         <span> . </span>
-                        <date>{timeago}</date>
+                        <Link href={`/status/[id]`} as={`/status/${id}`}>
+                            <a>
+                                <time>{timeago}</time>
+                            </a>
+                        </Link>
                     </header>
                     <p>{content}</p>
                     {img && <img src={img} />}
@@ -33,11 +46,26 @@ export default function Birdit({
                     padding: 10px 15px;
                 }
 
+                article:hover {
+                    background: #f5f8fa;
+                    cursor: pointer;
+                }
+
                 img {
                     width: 100%;
                     height: auto;
                     margin-top: 10px;
                     border-radius: 10px;
+                }
+
+                a {
+                    color: #555;
+                    font-size: 14px;
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    text-decoration: underline;
                 }
 
                 div {
@@ -49,7 +77,7 @@ export default function Birdit({
                     margin: 0;
                 }
 
-                date {
+                time {
                     color: #555;
                     font-size: 12px;
                 }

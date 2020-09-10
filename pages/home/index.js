@@ -1,4 +1,3 @@
-import AppLayout from 'components/AppLayout';
 import { useState, useEffect } from 'react';
 import Birdit from 'components/Birdit';
 import { colors } from 'styles/theme';
@@ -20,57 +19,55 @@ export default function HomePage() {
 
     return (
         <>
-            <AppLayout>
-                <Head>
-                    <title>Home / Birdev</title>
-                </Head>
-                <header>
-                    <h2>Inicio</h2>
-                </header>
-                <section>
-                    {timeline.map(
-                        ({
-                            id,
-                            img,
-                            username,
-                            avatar,
-                            content,
-                            userId,
-                            createdAt,
-                        }) => {
-                            return (
-                                <Birdit
-                                    avatar={avatar}
-                                    createdAt={createdAt}
-                                    id={id}
-                                    img={img}
-                                    key={id}
-                                    content={content}
-                                    username={username}
-                                    userId={userId}
-                                />
-                            );
-                        }
-                    )}
-                </section>
-                <nav>
-                    <Link href="/compose/tweet">
-                        <a>
-                            <Home with={32} height={32} />
-                        </a>
-                    </Link>
-                    <Link href="/compose/tweet">
-                        <a>
-                            <Search with={32} height={32} />
-                        </a>
-                    </Link>
-                    <Link href="/compose/tweet">
-                        <a>
-                            <Create with={32} height={32} />
-                        </a>
-                    </Link>
-                </nav>
-            </AppLayout>
+            <Head>
+                <title>Home / Birdev</title>
+            </Head>
+            <header>
+                <h2>Inicio</h2>
+            </header>
+            <section>
+                {timeline.map(
+                    ({
+                        id,
+                        img,
+                        username,
+                        avatar,
+                        content,
+                        userId,
+                        createdAt,
+                    }) => {
+                        return (
+                            <Birdit
+                                avatar={avatar}
+                                createdAt={createdAt}
+                                id={id}
+                                img={img}
+                                key={id}
+                                content={content}
+                                username={username}
+                                userId={userId}
+                            />
+                        );
+                    }
+                )}
+            </section>
+            <nav>
+                <Link href="/compose/tweet">
+                    <a>
+                        <Home with={32} height={32} />
+                    </a>
+                </Link>
+                <Link href="/compose/tweet">
+                    <a>
+                        <Search with={32} height={32} />
+                    </a>
+                </Link>
+                <Link href="/compose/tweet">
+                    <a>
+                        <Create with={32} height={32} />
+                    </a>
+                </Link>
+            </nav>
             <style jsx>{`
                 header {
                     background: #ffffffaa;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Birdit from 'components/Birdit';
 import { colors } from 'styles/theme';
 import useUser from 'hooks/useUser';
-import { fetchLatestBirdits } from 'firebase/client';
+import { listenLatestDevits } from 'firebase/client';
 import Link from 'next/link';
 import Create from 'components/Icons/Create';
 import Home from 'components/Icons/Home';
@@ -14,7 +14,11 @@ export default function HomePage() {
     const user = useUser();
 
     useEffect(() => {
-        user && fetchLatestBirdits().then(setTimeline);
+        let unsubscribe;
+        if (user) {
+            unsubscribe = listenLatestDevits(setTimeline);
+        }
+        return () => unsubscribe && unsubscribe();
     }, [user]);
 
     return (

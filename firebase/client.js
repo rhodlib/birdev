@@ -51,22 +51,24 @@ export const addBirdit = ({ avatar, content, userId, username, img }) => {
     });
 };
 
-export const fetchLatestBirdits = () => {
+const mapBirditFromFirebaseToBirditObject = doc => {
+    const data = doc.data();
+    const id = doc.id;
+    const { createdAt } = data;
+    return {
+        ...data,
+        id,
+        createdAt: +createdAt.toDate(),
+    };
+};
+
+export const listenLatestDevits = callback => {
     return db
         .collection('birdits')
         .orderBy('createdAt', 'desc')
-        .get()
-        .then(snapshot => {
-            return snapshot.docs.map(doc => {
-                const data = doc.data();
-                const id = doc.id;
-                const { createdAt } = data;
-                return {
-                    ...data,
-                    id,
-                    createdAt: +createdAt.toDate(),
-                };
-            });
+        .onSnapshot(({ docs }) => {
+            const newBirdits = docs.map(mapBirditFromFirebaseToBirditObject);
+            callback(newBirdits);
         });
 };
 

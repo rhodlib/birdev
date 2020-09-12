@@ -1,11 +1,11 @@
 var admin = require('firebase-admin');
 
-var serviceAccount = require('./firebase-keys.json');
-
 try {
     admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: 'https://birdev-8f5bb.firebaseio.com',
+        credential: admin.credential.cert(
+            JSON.parse(process.env.local.FIREBASE_KEYS)
+        ),
+        databaseURL: process.env.local.FIREBASE_DATABASE_URL,
     });
 } catch (error) {
     console.log(error);
